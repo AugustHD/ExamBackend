@@ -4,13 +4,14 @@ import com.example.exambackend.product.model.Product;
 import com.example.exambackend.product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
+@RequestMapping("api/products")
 public class ProductController {
 
     ProductService productService;
@@ -25,7 +26,13 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-    @GetMapping("/allProducts")
+    @DeleteMapping("/deleteProduct")
+    public ResponseEntity<Product> deleteProduct(Product product) {
+        productService.deleteById(product.getId());
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @GetMapping()
     public ResponseEntity<Set<Product>> allProducts() {
         Set<Product> set = productService.findAll();
         return new ResponseEntity<>(set, HttpStatus.OK);

@@ -17,6 +17,7 @@ public class ProductService implements IProductService {
         this.productRepository = productRepository;
     }
 
+
     @Override
     public Set<Product> findAll() {
         Set<Product> set = new HashSet<>();
@@ -37,7 +38,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteById(Long aLong) {
-
+        productRepository.deleteById(aLong);
     }
 
     @Override
