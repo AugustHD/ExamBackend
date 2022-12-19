@@ -1,5 +1,7 @@
 package com.example.exambackend.product.model;
 
+import com.example.exambackend.productorder.model.ProductOrder;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +25,8 @@ public class Product {
 
     @Column(name = "WEIGHT")
     private int weight;
+
+    @OneToOne(mappedBy = "product")
+    @JsonBackReference
+    private ProductOrder productOrder;
 }

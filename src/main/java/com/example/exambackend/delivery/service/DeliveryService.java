@@ -42,6 +42,6 @@ public class DeliveryService implements IDeliveryService {
 
     @Override
     public Optional<Delivery> findById(Long aLong) {
-        return Optional.empty();
+        return deliveryRepository.findById(aLong);
     }
 }

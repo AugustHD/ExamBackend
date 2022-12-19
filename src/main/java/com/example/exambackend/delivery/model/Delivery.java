@@ -1,5 +1,6 @@
 package com.example.exambackend.delivery.model;
 
+import com.example.exambackend.productorder.model.ProductOrder;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Setter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Entity
@@ -27,4 +30,7 @@ public class Delivery {
 
     @Column(name = "DESTINATION")
     private String destination;
+
+    @OneToMany(mappedBy = "delivery") // Én delivery kan have mange product-orders.
+    private Set<ProductOrder> productOrders = new HashSet<>();
 }
