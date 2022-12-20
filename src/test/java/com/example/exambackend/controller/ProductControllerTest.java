@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -67,5 +68,29 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
                 .andExpect(jsonPath("$.name").value("Slik"));
+    }
+
+    // Virker heller ikke, body returner null-værdier af en eller anden grund. Måske pga. mock.perform()
+    // TODO: Fix Unit-tests
+    @Test
+    public void addProduct_success() throws Exception {
+        Product product = Product.builder()
+                .name("TestProduct")
+                .price(500.95)
+                .weight(200)
+                .Id(1L)
+                .build();
+
+        Mockito.when(productService.save(product)).thenReturn(product);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/products/addProduct")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(product));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name").value("TestProduct"));
     }
 }
