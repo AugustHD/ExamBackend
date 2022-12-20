@@ -62,4 +62,18 @@ public class ProductController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+
+    //TODO: Lav om til en @PatchMapping
+    @PutMapping("/editProduct")
+    public ResponseEntity<Product> editProduct(@RequestBody Product updatedProduct, @RequestParam Long productID) {
+      Optional <Product> oldProduct_ = productService.findById(productID);
+      if (oldProduct_.isPresent()) {
+          updatedProduct.setId(productID);
+          productService.save(updatedProduct);
+          return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+      } else {
+          System.out.println("Could not find product ID :(");
+          return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+      }
+    }
 }
