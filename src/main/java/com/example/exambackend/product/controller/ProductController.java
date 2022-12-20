@@ -39,13 +39,26 @@ public class ProductController {
     }
 
     @GetMapping("/findProduct")
-    public ResponseEntity<Product> findProduct(@RequestParam Long productID, Product product) {
+    public ResponseEntity<Product> findProduct(@RequestParam Long productID) {
         Optional<Product> product_ = productService.findById(productID);
         if (product_.isPresent()) {
-            product = product_.get();
+            Product product = product_.get();
             return new ResponseEntity<>(product, HttpStatus.OK);
         } else {
             System.out.println("Could not find product ID :(");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Der er nok en simplere måde at gøre det her på!
+    @GetMapping("/findProductByName")
+        public ResponseEntity<Product> findProductByName(@RequestParam String productName) {
+        Optional<Product> product_ = productService.findByName(productName);
+        if (product_.isPresent()) {
+            Product product = product_.get();
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            System.out.println("Could not find product name :(");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
