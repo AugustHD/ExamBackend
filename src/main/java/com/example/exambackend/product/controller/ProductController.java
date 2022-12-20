@@ -37,4 +37,16 @@ public class ProductController {
         Set<Product> set = productService.findAll();
         return new ResponseEntity<>(set, HttpStatus.OK);
     }
+
+    @GetMapping("/findProduct")
+    public ResponseEntity<Product> findProduct(@RequestParam Long productID, Product product) {
+        Optional<Product> product_ = productService.findById(productID);
+        if (product_.isPresent()) {
+            product = product_.get();
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            System.out.println("Could not find product ID :(");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
